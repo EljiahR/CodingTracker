@@ -8,9 +8,17 @@ namespace CodingTracker
 {
     internal class UserInput
     {
-        public void Test()
+        public static int GetMenuOption(int start, int end)
         {
-            Console.WriteLine("hello");
+            string? response = Console.ReadLine();
+            int result;
+            while(!int.TryParse(response, out result) || result < start || result > end)
+            {
+                Console.WriteLine("Invalid response");
+                response = Console.ReadLine();
+            }
+
+            return result;
         }
     }
 }

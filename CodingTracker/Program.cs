@@ -1,8 +1,6 @@
 ﻿using CodingTracker;
 using Spectre.Console;
 
-UserInput userInput = new UserInput();
-userInput.Test();
 
 AnsiConsole.Markup("[underline red]Hello[/] World!");
 

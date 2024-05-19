@@ -8,6 +8,7 @@ namespace CodingTracker
 {
     internal class CodingSession
     {
+        public int id { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
 
