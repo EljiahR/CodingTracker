@@ -2,5 +2,5 @@
 using Spectre.Console;
 
 
-Menu.MainMenu();
+Menu.MainMenu(true);
 

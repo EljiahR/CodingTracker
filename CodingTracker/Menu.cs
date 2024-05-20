@@ -15,28 +15,31 @@ namespace CodingTracker
                 Console.Clear();
                 Console.WriteLine("\nCoding Tracker");
             }
-
-            Console.WriteLine("\n\tMain Menu\n");
-            Console.WriteLine("Select from the following:");
-            Console.WriteLine("\t1: New Entry");
-            Console.WriteLine("\t2: Edit Entry");
-
-            int selectedOption = UserInput.GetMenuOption(1, 2);
-
-            switch(selectedOption)
+            int selectedOption;
+            do
             {
-                case 1:
-                    NewEntryMenu();
-                    break;
-            }
+                Console.WriteLine("\n\tMain Menu\n");
+                Console.WriteLine("Select from the following:");
+                Console.WriteLine("\t1: New Entry");
+                Console.WriteLine("\t2: Edit Entry");
+                Console.WriteLine("\t3: Exit Program");
+
+                selectedOption = UserInput.GetMenuOption(1, 3);
+
+                switch (selectedOption)
+                {
+                    case 1:
+                        NewEntryMenu(true);
+                        break;
+                }
+            } while (selectedOption != 3);
+            
 
         }
 
         private static void NewEntryMenu(bool clearScreen = false)
         {
-            if(clearScreen) Console.Clear(); 
-
-            DateTime day = UserInput.GetDay();
+            if(clearScreen) Console.Clear();
 
             Console.WriteLine("Select from the follwing:");
             Console.WriteLine("\t1: Manual Entry");
@@ -47,14 +50,19 @@ namespace CodingTracker
             switch(selectedOption)
             {
                 case 1:
-                    ManualEntry(day);
+                    ManualEntry();
+                    break;
+                case 2:
+                    Timer();
                     break;
             }
 
         }
 
-        private static void ManualEntry(DateTime day)
+        private static void ManualEntry()
         {
+            DateTime day = UserInput.GetDay();
+
             Console.WriteLine("Please enter a start time as HH:MM (AM/PM) or (24-hour)HH:MM");
             DateTime startTime = UserInput.GetTimeManually(day);
 
@@ -66,6 +74,25 @@ namespace CodingTracker
             session.EndTime = endTime;
             Console.WriteLine($"Coded on {day.ToString("yyyy-MM-dd")} for {session.CalculateDuration()}"); // for debugging purposes
 
+        }
+
+        private static void Timer()
+        {
+            Console.Clear();
+            Console.WriteLine("Press enter to begin timer...");
+            Console.ReadLine();
+            DateTime startTime = DateTime.Now;
+
+            Console.Clear();
+            Console.WriteLine("Timer started, press enter to end");
+            Console.ReadLine();
+            DateTime endTime = DateTime.Now;
+
+            Console.Clear();
+            CodingSession session = new CodingSession();
+            session.StartTime = startTime;
+            session.EndTime = endTime;
+            Console.WriteLine($"Coded on {startTime.ToString("yyyy-MM-dd")} for {session.CalculateDuration()}"); // for debugging purposes
         }
     }
 }

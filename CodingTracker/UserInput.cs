@@ -26,9 +26,10 @@ namespace CodingTracker
             Console.WriteLine("\nPlease input a date in YYYY-MM-DD format or leave blank for today");
             string? response = Console.ReadLine();
             DateTime day = new();
-            while(!string.IsNullOrEmpty(response) && DateTime.TryParse(response, out day))
+            while(!string.IsNullOrEmpty(response) && !DateTime.TryParse(response, out day))
             {
                 Console.WriteLine("Invalid response");
+                response = Console.ReadLine();
             }
             if (string.IsNullOrEmpty(response)) day = DateTime.Today;
             return day;
