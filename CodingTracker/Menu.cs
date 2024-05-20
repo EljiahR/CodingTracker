@@ -33,7 +33,7 @@ namespace CodingTracker
                         break;
                 }
             } while (selectedOption != 3);
-            
+            Console.WriteLine("Goodbye!");
 
         }
 
