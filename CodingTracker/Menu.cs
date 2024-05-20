@@ -22,17 +22,27 @@ namespace CodingTracker
                 Console.WriteLine("Select from the following:");
                 Console.WriteLine("\t1: New Entry");
                 Console.WriteLine("\t2: Edit Entry");
-                Console.WriteLine("\t3: Exit Program");
+                Console.WriteLine("\t3: View All Entries");
+                Console.WriteLine("\n\t4: Delete Database");
+                Console.WriteLine("\t5: Exit Program");
 
-                selectedOption = UserInput.GetMenuOption(1, 3);
+                selectedOption = UserInput.GetMenuOption(1, 5);
 
                 switch (selectedOption)
                 {
                     case 1:
                         NewEntryMenu(true);
                         break;
+                    case 2:
+                        break;
+                    case 3:
+                        ViewAll();
+                        break;
+                    case 4:
+                        DeleteDatabase();
+                        break;
                 }
-            } while (selectedOption != 3);
+            } while (selectedOption != 5);
             Console.WriteLine("Goodbye!");
 
         }
@@ -72,6 +82,8 @@ namespace CodingTracker
             CodingSession session = new CodingSession();
             session.StartTime = startTime;
             session.EndTime = endTime;
+
+            Database.InsertRow(session);
             Console.WriteLine($"Coded on {day.ToString("yyyy-MM-dd")} for {session.CalculateDuration()}"); // for debugging purposes
 
         }
@@ -92,7 +104,27 @@ namespace CodingTracker
             CodingSession session = new CodingSession();
             session.StartTime = startTime;
             session.EndTime = endTime;
+
+            Database.InsertRow(session);
             Console.WriteLine($"Coded on {startTime.ToString("yyyy-MM-dd")} for {session.CalculateDuration()}"); // for debugging purposes
+        }
+
+        private static void ViewAll()
+        {
+            List<CodingSession> sessions = Database.ViewAll();
+            foreach(var session in sessions)
+            {
+                Console.WriteLine($"ID: {session.id}");
+                Console.WriteLine($"\tCoded on {session.StartTime.ToString("yyyy-MM-dd")} for {session.CalculateDuration()}");
+            }
+        }
+
+        private static void DeleteDatabase()
+        {
+            //Add confirmation
+            Console.Clear();
+            Database.DeleteAll();
+            Console.WriteLine("Table Deleted");
         }
     }
 }

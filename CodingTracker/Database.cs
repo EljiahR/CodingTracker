@@ -12,29 +12,49 @@ namespace CodingTracker
 {
     internal class Database
     {
-        private static string? _connString = ConfigurationManager.AppSettings.Get("connString");
+        private static string _connString = ConfigurationManager.AppSettings.Get("connString") ?? "Data Source=tracker.db";
+        private static string _filePath = ConfigurationManager.AppSettings.Get("path") ?? "tracker.db";
 
         public static void CreateEmpty()
         {
-            if(!string.IsNullOrEmpty(_connString))
+            using (var connection = new SQLiteConnection(_connString))
             {
-                using (var connection = new SQLiteConnection(_connString))
-                {
-                    connection.Open();
-                    connection.Execute(
-                        @"CREATE TABLE IF NOT EXISTS tracker(
-                            id INT PRIMARY KEY,
-                            start DATETIME NOT NULL,
-                            end DATETIME NOT NULL
-                        );"
-                    );
+                connection.Open();
+                connection.Execute(
+                    @"CREATE TABLE IF NOT EXISTS tracker(
+                        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                        StartTime DATETIME NOT NULL,
+                        EndTime DATETIME NOT NULL
+                    );"
+                );
 
-                }
-            } else
-            {
-                Console.WriteLine("Missing connection string in config file");
             }
+        }
 
+        public static void InsertRow(CodingSession session)
+        {
+            using (var connection = new SQLiteConnection(_connString))
+            {
+                connection.Open();
+                string sql = "INSERT INTO tracker(StartTime, EndTime) VALUES(@StartTime, @EndTime)";
+                connection.Execute(sql, session);
+            }    
+        }
+
+        public static List<CodingSession> ViewAll()
+        {
+            using (var connection = new SQLiteConnection(_connString))
+            {
+                connection.Open();
+                string sql = "SELECT StartTime, EndTime, id FROM tracker";
+                return connection.Query<CodingSession>(sql).ToList();
+            }
+        }
+
+        public static void DeleteAll()
+        {
+            File.Delete(_filePath);
+            CreateEmpty();
         }
     }
 }
