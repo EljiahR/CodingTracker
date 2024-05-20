@@ -2,5 +2,5 @@
 using Spectre.Console;
 
 
-Menu.MainMenu(true);
-
+//Menu.MainMenu(true);
+Database.CreateEmpty();
