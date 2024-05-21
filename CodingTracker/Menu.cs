@@ -189,14 +189,23 @@ namespace CodingTracker
         {
             Console.Clear();
             Console.WriteLine("Select view option:");// Fix this 
-            Console.WriteLine("\t1: Day");
+            Console.WriteLine("\t1: Hours per day");
+            Console.WriteLine("\t2: Hours per month");
+            Console.WriteLine("\t3: Hours per year");
+            Console.WriteLine("\t4: Return to menu");
 
-            int response = UserInput.GetMenuOption(1, 1);
+            int response = UserInput.GetMenuOption(1, 4);
 
             switch(response)
             {
                 case 1:
-                    Graph.ShowPerDay(Database.GetHoursPerDay());
+                    Graph.DisplayGraph(Database.GetHoursPerDay(), "day");
+                    break;
+                case 2:
+                    Graph.DisplayGraph(Database.GetHoursPerMonth(), "month");
+                    break;
+                case 3:
+                    Graph.DisplayGraph(Database.GetHoursPerYear(), "year");
                     break;
             }
         }

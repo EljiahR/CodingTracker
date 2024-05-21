@@ -78,23 +78,52 @@ namespace CodingTracker
             CreateEmpty();
         }
 
-        public static Dictionary<string, double> GetHoursPerDay()
+        public static List<SessionData> GetHoursPerDay()
         {
-            Dictionary<string, double> result = new();
-
-            
             using (var connection = new SQLiteConnection(_connString))
             {
                 connection.Open();
-                string sql = "SELECT SUM(ROUND((JULIANDAY(EndTime) - JULIANDAY(StartTime)) * 24, 2)) as column1 FROM tracker GROUP BY STRFTIME('%Y-%m-%d', StartTime) Order By StartTime";
-                var query = connection.Query(sql);
-                foreach(var item in query)
-                {
-                    Console.WriteLine(item.column1);
-                }
+                string sql =
+                    @"
+                        SELECT 
+                            STRFTIME('%Y-%m-%d', StartTime) AS Label,    
+                            SUM(ROUND((JULIANDAY(EndTime) - JULIANDAY(StartTime)) * 24, 2)) as Value
+                        FROM tracker GROUP BY STRFTIME('%Y-%m-%d', StartTime) 
+                        ORDER BY StartTime";
+                return connection.Query<SessionData>(sql).ToList();
             }
+        }
 
-            return result;
+        public static List<SessionData> GetHoursPerMonth()
+        {
+            using (var connection = new SQLiteConnection(_connString))
+            {
+                connection.Open();
+                string sql =
+                    @"
+                        SELECT 
+                            STRFTIME('%Y-%m', StartTime) AS Label,    
+                            SUM(ROUND((JULIANDAY(EndTime) - JULIANDAY(StartTime)) * 24, 2)) as Value
+                        FROM tracker GROUP BY STRFTIME('%Y-%m', StartTime) 
+                        ORDER BY StartTime";
+                return connection.Query<SessionData>(sql).ToList();
+            }
+        }
+
+        public static List<SessionData> GetHoursPerYear()
+        {
+            using (var connection = new SQLiteConnection(_connString))
+            {
+                connection.Open();
+                string sql =
+                    @"
+                        SELECT 
+                            STRFTIME('%Y', StartTime) AS Label,    
+                            SUM(ROUND((JULIANDAY(EndTime) - JULIANDAY(StartTime)) * 24, 2)) as Value
+                        FROM tracker GROUP BY STRFTIME('%Y', StartTime) 
+                        ORDER BY StartTime";
+                return connection.Query<SessionData>(sql).ToList();
+            }
         }
     }
 }
