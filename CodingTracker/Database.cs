@@ -51,6 +51,17 @@ namespace CodingTracker
             }
         }
 
+        public static void DeleteRow(CodingSession session)
+        {
+
+            using (var connection = new SQLiteConnection(_connString))
+            {
+                connection.Open();
+                string sql = "DELETE FROM tracker WHERE id = @id";
+                connection.Execute( sql, session);
+            }
+        }
+
         public static List<CodingSession> ViewAll()
         {
             using (var connection = new SQLiteConnection(_connString))
@@ -65,6 +76,25 @@ namespace CodingTracker
         {
             File.Delete(_filePath);
             CreateEmpty();
+        }
+
+        public static Dictionary<string, double> GetHoursPerDay()
+        {
+            Dictionary<string, double> result = new();
+
+            
+            using (var connection = new SQLiteConnection(_connString))
+            {
+                connection.Open();
+                string sql = "SELECT SUM(ROUND((JULIANDAY(EndTime) - JULIANDAY(StartTime)) * 24, 2)) as column1 FROM tracker GROUP BY STRFTIME('%Y-%m-%d', StartTime) Order By StartTime";
+                var query = connection.Query(sql);
+                foreach(var item in query)
+                {
+                    Console.WriteLine(item.column1);
+                }
+            }
+
+            return result;
         }
     }
 }

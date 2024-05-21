@@ -23,10 +23,13 @@ namespace CodingTracker
                 Console.WriteLine("\t1: New Entry");
                 Console.WriteLine("\t2: Edit Entry");
                 Console.WriteLine("\t3: View All Entries");
-                Console.WriteLine("\n\t4: Delete Database");
-                Console.WriteLine("\t5: Exit Program");
+                Console.WriteLine("\t4: Display Graph");
+                Console.WriteLine();
+                Console.WriteLine("\t5: Delete Entry");
+                Console.WriteLine("\t6: Delete Database");
+                Console.WriteLine("\t7: Exit Program");
 
-                selectedOption = UserInput.GetMenuOption(1, 5);
+                selectedOption = UserInput.GetMenuOption(1, 7);
 
                 switch (selectedOption)
                 {
@@ -40,10 +43,16 @@ namespace CodingTracker
                         ViewAll();
                         break;
                     case 4:
+                        GraphMenu();
+                        break;
+                    case 5:
+                        DeleteMenu();
+                        break;
+                    case 6:
                         DeleteDatabase();
                         break;
                 }
-            } while (selectedOption != 5);
+            } while (selectedOption != 7);
             Console.WriteLine("Goodbye!");
 
         }
@@ -64,7 +73,7 @@ namespace CodingTracker
                     ManualEntry();
                     break;
                 case 2:
-                    Timer();
+                    TimerEntry();
                     break;
             }
 
@@ -89,7 +98,7 @@ namespace CodingTracker
 
         }
 
-        private static void Timer()
+        private static void TimerEntry()
         {
             Console.Clear();
             Console.WriteLine("Press enter to begin timer...");
@@ -97,7 +106,7 @@ namespace CodingTracker
             DateTime startTime = DateTime.Now;
 
             Console.Clear();
-            Console.WriteLine("Timer started, press enter to end");
+            Console.WriteLine($"Timer started at {startTime}, press Enter to end");
             Console.ReadLine();
             DateTime endTime = DateTime.Now;
 
@@ -119,7 +128,8 @@ namespace CodingTracker
                 Console.WriteLine("Select a session to edit from the following:\n");
                 for (int i = 0; i < sessions.Count; i++)
                 {
-                    Console.WriteLine($"\t{i + 1}: id: {sessions[i].id}; StartTime: {sessions[i].StartTime}; EndTime: {sessions[i].EndTime}"); 
+                    Console.WriteLine($"{i + 1}:");
+                    Console.WriteLine($"\tid: {sessions[i].id}; StartTime: {sessions[i].StartTime}; EndTime: {sessions[i].EndTime}");
                 }
                 int response = UserInput.GetMenuOption(1, sessions.Count);
                 CodingSession sessionToUpdate = sessions[response - 1];
@@ -161,11 +171,59 @@ namespace CodingTracker
         {
             Console.Clear();
             List<CodingSession> sessions = Database.ViewAll();
-            foreach(var session in sessions)
+            if(sessions.Count > 0)
             {
-                Console.WriteLine($"ID: {session.id}");
-                Console.WriteLine($"\tCoded on {session.StartTime.ToString("yyyy-MM-dd")} for {session.CalculateDuration()}");
+                foreach (var session in sessions)
+                {
+                    Console.WriteLine($"ID: {session.id}");
+                    Console.WriteLine($"\tCoded on {session.StartTime.ToString("yyyy-MM-dd")} for {session.CalculateDuration()}");
+                }
+            } else
+            {
+                Console.WriteLine("No sessions to display");
             }
+            
+        }
+
+        private static void GraphMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Select view option:");// Fix this 
+            Console.WriteLine("\t1: Day");
+
+            int response = UserInput.GetMenuOption(1, 1);
+
+            switch(response)
+            {
+                case 1:
+                    Graph.ShowPerDay(Database.GetHoursPerDay());
+                    break;
+            }
+        }
+
+        private static void DeleteMenu()
+        {
+            Console.Clear();
+            List<CodingSession> sessions = Database.ViewAll();
+            if(sessions.Count > 0 )
+            {
+                Console.WriteLine("Please select an entry to delete: ");
+                for (int i = 0; i < sessions.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}:");
+                    Console.WriteLine($"\tid: {sessions[i].id}; StartTime: {sessions[i].StartTime}; EndTime: {sessions[i].EndTime}");
+                }
+                int response = UserInput.GetMenuOption(1, sessions.Count);
+
+                CodingSession sessionToDelete = sessions[response - 1];
+                Database.DeleteRow(sessionToDelete);
+                Console.WriteLine($"Session ID:{sessionToDelete.id} successfully updated");
+            } else
+            {
+                Console.WriteLine("No sessions to delete");
+            }
+            
+
         }
 
         private static void DeleteDatabase()
