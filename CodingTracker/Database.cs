@@ -41,6 +41,16 @@ namespace CodingTracker
             }    
         }
 
+        public static void UpdateRow(CodingSession session)
+        {
+            using (var connection = new SQLiteConnection(_connString))
+            {
+                connection.Open();
+                string sql = "UPDATE tracker SET StartTime = @StartTime, EndTime = @EndTime WHERE id = @id";
+                connection.Execute(sql, session);
+            }
+        }
+
         public static List<CodingSession> ViewAll()
         {
             using (var connection = new SQLiteConnection(_connString))

@@ -21,6 +21,12 @@ namespace CodingTracker
             return result;
         }
 
+        public static bool YesOrNo()
+        {
+            string? response = Console.ReadLine();
+            return !string.IsNullOrEmpty(response) && response.Trim().ToLower() == "y";
+        }
+
         public static DateTime GetDay()
         {
             Console.WriteLine("\nPlease input a date in YYYY-MM-DD format or leave blank for today");
@@ -37,6 +43,7 @@ namespace CodingTracker
 
         public static DateTime GetTimeManually(DateTime day)
         {
+            Console.WriteLine("Please enter a time as HH:MM (AM/PM) or (24-hour)HH:MM");
             string? response = Console.ReadLine();
             TimeOnly time = new();
             while (string.IsNullOrEmpty(response) || !TimeOnly.TryParse(response, out time))
@@ -47,6 +54,19 @@ namespace CodingTracker
 
             ;
             return day + time.ToTimeSpan();
+        }
+
+        public static DateTime GetNewSessionTime(DateTime time)
+        {
+            DateTime timeToUpdate = time;
+            Console.WriteLine("Would you like to change the day? y/n");
+            if(YesOrNo())
+            {
+                timeToUpdate = GetDay();
+            }
+            timeToUpdate = GetTimeManually(DateTime.Parse(timeToUpdate.ToString("yyyy-MM-dd")));
+
+            return timeToUpdate;
         }
     }
 }

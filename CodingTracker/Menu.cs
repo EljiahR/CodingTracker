@@ -34,6 +34,7 @@ namespace CodingTracker
                         NewEntryMenu(true);
                         break;
                     case 2:
+                        EditMenu();
                         break;
                     case 3:
                         ViewAll();
@@ -73,10 +74,10 @@ namespace CodingTracker
         {
             DateTime day = UserInput.GetDay();
 
-            Console.WriteLine("Please enter a start time as HH:MM (AM/PM) or (24-hour)HH:MM");
+            Console.WriteLine("Start Time:");
             DateTime startTime = UserInput.GetTimeManually(day);
 
-            Console.WriteLine("Please enter an end time as HH:MM (AM/PM) or (24-hour)HH:MM");
+            Console.WriteLine("End Time:");
             DateTime endTime = UserInput.GetTimeManually(day);
 
             CodingSession session = new CodingSession();
@@ -109,8 +110,56 @@ namespace CodingTracker
             Console.WriteLine($"Coded on {startTime.ToString("yyyy-MM-dd")} for {session.CalculateDuration()}"); // for debugging purposes
         }
 
+        private static void EditMenu()
+        {
+            Console.Clear();
+            List<CodingSession> sessions = Database.ViewAll();
+            if(sessions.Count > 0)
+            {
+                Console.WriteLine("Select a session to edit from the following:\n");
+                for (int i = 0; i < sessions.Count; i++)
+                {
+                    Console.WriteLine($"\t{i + 1}: id: {sessions[i].id}; StartTime: {sessions[i].StartTime}; EndTime: {sessions[i].EndTime}"); 
+                }
+                int response = UserInput.GetMenuOption(1, sessions.Count);
+                CodingSession sessionToUpdate = sessions[response - 1];
+                int option;
+                do
+                {
+                    Console.Clear();
+                    Console.WriteLine($"id: {sessionToUpdate.id}; StartTime: {sessionToUpdate.StartTime}; EndTime: {sessionToUpdate.EndTime}\n");
+                    Console.WriteLine("Please select from the following:\n");
+                    Console.WriteLine("\t1: Edit start time");
+                    Console.WriteLine("\t2: Edit end time");
+                    Console.WriteLine("\t3: Finish");
+
+                    option = UserInput.GetMenuOption(1, 3);
+                    switch(option)
+                    {
+                        case 1:
+                            sessionToUpdate.StartTime = UserInput.GetNewSessionTime(sessionToUpdate.StartTime);
+                            break;
+                        case 2:
+                            sessionToUpdate.EndTime = UserInput.GetNewSessionTime(sessionToUpdate.EndTime);
+                            break;
+                    }
+
+                } while (option != 3);
+
+                Database.UpdateRow(sessionToUpdate);
+                Console.WriteLine($"Session ID:{sessionToUpdate.id} successfully updated");
+
+            } else
+            {
+                Console.WriteLine("No session available to edit");
+            }
+            
+
+
+        }
         private static void ViewAll()
         {
+            Console.Clear();
             List<CodingSession> sessions = Database.ViewAll();
             foreach(var session in sessions)
             {
