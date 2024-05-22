@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spectre.Console;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,12 +20,6 @@ namespace CodingTracker
             }
 
             return result;
-        }
-
-        public static bool YesOrNo()
-        {
-            string? response = Console.ReadLine();
-            return !string.IsNullOrEmpty(response) && response.Trim().ToLower() == "y";
         }
 
         public static DateTime GetDay()
@@ -59,8 +54,7 @@ namespace CodingTracker
         public static DateTime GetNewSessionTime(DateTime time)
         {
             DateTime timeToUpdate = time;
-            Console.WriteLine("Would you like to change the day? y/n");
-            if(YesOrNo())
+            if(AnsiConsole.Confirm("Would you like to change the day? y/n"))
             {
                 timeToUpdate = GetDay();
             }

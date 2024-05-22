@@ -60,7 +60,7 @@ namespace CodingTracker
                     case "Delete Entry":
                         DeleteMenu();
                         break;
-                    case "Delete Database":
+                    case "[red]Delete Database[/]":
                         DeleteDatabase();
                         break;
                 }
@@ -246,10 +246,13 @@ namespace CodingTracker
 
         private static void DeleteDatabase()
         {
-            //Add confirmation
             Console.Clear();
-            Database.DeleteAll();
-            Console.WriteLine("Table Deleted");
+            if(AnsiConsole.Confirm("[bold red]Are you sure you want to delete database?[/]"))
+            {
+                Database.DeleteAll();
+                Console.WriteLine("Table Deleted");
+            }
+            
         }
     }
 }
