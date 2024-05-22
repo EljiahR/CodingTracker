@@ -14,3 +14,8 @@
   <li>You need to use Dapper ORM for the data access instead of ADO.NET.</li>
   <li>When reading from the database, you can't use an anonymous object, you have to read your table into a List of Coding Sessions.</li>
 </ul>
+<h3>Additional Completed Challenges</h3>
+<ul>
+  <li>Add the possibility of tracking the coding time via a stopwatch so the user can track the session as it happens.</li>
+  <li>Let the users filter their coding records per period</li>
+</ul>
