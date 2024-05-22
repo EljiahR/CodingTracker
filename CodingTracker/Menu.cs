@@ -1,78 +1,87 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Spectre.Console;
 
 namespace CodingTracker
 {
     internal class Menu
     {
+        private static SelectionPrompt<string> mainMenuOptions = new SelectionPrompt<string>()
+                        .Title("Main Menu")
+                        .PageSize(7)
+                        .AddChoices(new[]
+                        {
+                            "New Entry",
+                            "Edit Entry",
+                            "View All Entries",
+                            "Display Graph",
+                            "Delete Entry",
+                            "[red]Delete Database[/]",
+                            "Exit Program"
+                        });
+
+        private static SelectionPrompt<string> newEntryOptions = new SelectionPrompt<string>()
+                        .Title("Entry Methods")
+                        .PageSize(3)
+                        .AddChoices(new[]
+                        {
+                            "Manual",
+                            "Timer",
+                            "Return to menu"
+                        });
+
         public static void MainMenu(bool clearScreen = false)
         {
+            
+            
+            
             if (clearScreen)
             {
                 Console.Clear();
                 Console.WriteLine("\nCoding Tracker");
             }
-            int selectedOption;
+            string selectedOption;
             do
             {
-                Console.WriteLine("\n\tMain Menu\n");
-                Console.WriteLine("Select from the following:");
-                Console.WriteLine("\t1: New Entry");
-                Console.WriteLine("\t2: Edit Entry");
-                Console.WriteLine("\t3: View All Entries");
-                Console.WriteLine("\t4: Display Graph");
-                Console.WriteLine();
-                Console.WriteLine("\t5: Delete Entry");
-                Console.WriteLine("\t6: Delete Database");
-                Console.WriteLine("\t7: Exit Program");
-
-                selectedOption = UserInput.GetMenuOption(1, 7);
+                selectedOption = AnsiConsole.Prompt(mainMenuOptions);
 
                 switch (selectedOption)
                 {
-                    case 1:
-                        NewEntryMenu(true);
+                    case "New Entry":
+                        NewEntryMenu();
                         break;
-                    case 2:
+                    case "Edit Entry":
                         EditMenu();
                         break;
-                    case 3:
+                    case "View All Entries":
                         ViewAll();
                         break;
-                    case 4:
+                    case "Display Graph":
                         GraphMenu();
                         break;
-                    case 5:
+                    case "Delete Entry":
                         DeleteMenu();
                         break;
-                    case 6:
+                    case "Delete Database":
                         DeleteDatabase();
                         break;
                 }
-            } while (selectedOption != 7);
+            } while (selectedOption != "Exit Program");
+            Console.Clear();
             Console.WriteLine("Goodbye!");
 
         }
 
-        private static void NewEntryMenu(bool clearScreen = false)
+        private static void NewEntryMenu()
         {
-            if(clearScreen) Console.Clear();
+            Console.Clear();
 
-            Console.WriteLine("Select from the follwing:");
-            Console.WriteLine("\t1: Manual Entry");
-            Console.WriteLine("\t2: Timer");
-
-            int selectedOption = UserInput.GetMenuOption(1, 2);
+            string selectedOption = AnsiConsole.Prompt(newEntryOptions);
 
             switch(selectedOption)
             {
-                case 1:
+                case "Manual":
                     ManualEntry();
                     break;
-                case 2:
+                case "Timer":
                     TimerEntry();
                     break;
             }
