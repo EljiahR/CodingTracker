@@ -4,7 +4,7 @@ using System;
 namespace CodingTracker.Test
 {
     [TestClass]
-    public class UnitTest1
+    public class ValidationTests
     {
         [TestMethod]
         public void TestMethod1()

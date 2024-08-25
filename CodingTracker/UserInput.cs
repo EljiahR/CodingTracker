@@ -12,43 +12,39 @@ namespace CodingTracker
         public static int GetMenuOption(int start, int end)
         {
             string? response = Console.ReadLine();
-            int result;
-            while(!int.TryParse(response, out result) || result < start || result > end)
+            while(!InputValidation.ValidateMenuOption(start, end, response))
             {
                 Console.WriteLine("Invalid response");
                 response = Console.ReadLine();
             }
 
-            return result;
+            return int.Parse(response!);
         }
 
         public static DateTime GetDay()
         {
             Console.WriteLine("\nPlease input a date in YYYY-MM-DD format or leave blank for today");
             string? response = Console.ReadLine();
-            DateTime day = new();
-            while(!string.IsNullOrEmpty(response) && !DateTime.TryParse(response, out day))
+            while(!InputValidation.ValidateDate(response))
             {
                 Console.WriteLine("Invalid response");
                 response = Console.ReadLine();
             }
-            if (string.IsNullOrEmpty(response)) day = DateTime.Today;
-            return day;
+            return string.IsNullOrEmpty(response) ? DateTime.Today : DateTime.Parse(response);
         }
 
         public static DateTime GetTimeManually(DateTime day)
         {
             Console.WriteLine("Please enter a time as HH:MM (AM/PM) or (24-hour)HH:MM");
             string? response = Console.ReadLine();
-            TimeOnly time = new();
-            while (string.IsNullOrEmpty(response) || !TimeOnly.TryParse(response, out time))
+            while (InputValidation.ValidateTime(response))
             {
                 Console.WriteLine("Invalid response, must be HH:MM (AM/PM) or (24-hour)HH:MM");
                 response = Console.ReadLine();
             }
 
-            ;
-            return day + time.ToTimeSpan();
+            
+            return day + TimeOnly.Parse(response!).ToTimeSpan();
         }
 
         public static DateTime GetNewSessionTime(DateTime time)
