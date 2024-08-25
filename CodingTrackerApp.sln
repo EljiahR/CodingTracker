@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodingTracker", "CodingTracker\CodingTracker.csproj", "{810BB434-87A7-4501-8372-CED137E50620}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingTracker.Test", "CodingTracker.Test\CodingTracker.Test.csproj", "{12CBE6BE-D56E-4741-A1AC-10168A2707C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodingTrackerApp.Test", "CodingTrackerApp.Test\CodingTrackerApp.Test.csproj", "{71EDFB2B-2F1C-4654-BC1A-F3DD493A8EF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{810BB434-87A7-4501-8372-CED137E50620}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{810BB434-87A7-4501-8372-CED137E50620}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{810BB434-87A7-4501-8372-CED137E50620}.Release|Any CPU.Build.0 = Release|Any CPU
-		{12CBE6BE-D56E-4741-A1AC-10168A2707C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{12CBE6BE-D56E-4741-A1AC-10168A2707C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{12CBE6BE-D56E-4741-A1AC-10168A2707C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{12CBE6BE-D56E-4741-A1AC-10168A2707C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71EDFB2B-2F1C-4654-BC1A-F3DD493A8EF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71EDFB2B-2F1C-4654-BC1A-F3DD493A8EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71EDFB2B-2F1C-4654-BC1A-F3DD493A8EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71EDFB2B-2F1C-4654-BC1A-F3DD493A8EF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
