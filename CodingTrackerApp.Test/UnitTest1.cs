@@ -16,5 +16,23 @@ namespace CodingTracker.Test
 			bool result = InputValidation.ValidateMenuOption(start, end, "5");
 			Assert.IsTrue(result);
 		}
+		[TestMethod]
+		public void InputValidation_ValidateMenuOption_InputGreaterThanRange_ReturnFalse()
+		{
+			bool result = InputValidation.ValidateMenuOption(start, end, "12");
+			Assert.IsFalse(result);
+		}
+		[TestMethod]
+		public void InputValidation_ValidateMenuOption_InputIsLessThanRange_ReturnFalse()
+		{
+			bool result = InputValidation.ValidateMenuOption(start, end, "-4");
+			Assert.IsFalse(result);
+		}
+		[TestMethod]
+		public void InputValidation_ValidateMenuOption_InputIsLetter_ReturnFalse()
+		{
+			bool result = InputValidation.ValidateMenuOption(start, end, "b");
+			Assert.IsFalse(result);
+		}
 	}
 }
