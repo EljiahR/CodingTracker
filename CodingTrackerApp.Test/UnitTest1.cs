@@ -17,17 +17,14 @@ namespace CodingTracker.Test
 			Assert.IsTrue(result);
 		}
 		[TestMethod]
-		public void InputValidation_ValidateMenuOption_InputGreaterThanRange_ReturnFalse()
+		[DataRow("-4")]
+		[DataRow("12")]
+		public void InputValidation_ValidateMenuOption_InputOutsideRange_ReturnFalse(string input)
 		{
-			bool result = InputValidation.ValidateMenuOption(start, end, "12");
+			bool result = InputValidation.ValidateMenuOption(start, end, input);
 			Assert.IsFalse(result);
 		}
-		[TestMethod]
-		public void InputValidation_ValidateMenuOption_InputIsLessThanRange_ReturnFalse()
-		{
-			bool result = InputValidation.ValidateMenuOption(start, end, "-4");
-			Assert.IsFalse(result);
-		}
+	
 		[TestMethod]
 		public void InputValidation_ValidateMenuOption_InputIsLetter_ReturnFalse()
 		{
